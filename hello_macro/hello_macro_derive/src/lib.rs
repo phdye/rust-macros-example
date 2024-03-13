@@ -10,7 +10,7 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
     let name = &ast.ident;
     let data = &ast.data;
     // println!("{:#?}", data);
-    let mut defenition = format!("Struct {}", name);
+    let mut definition = format!("Struct {}", name);
 
     if let Struct(def) = data {
         if let Fields::Named(fields) = &def.fields {
@@ -19,11 +19,11 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
                 let ty = &named.ty;
                 if let Some(id) = ident {
                     // println!("{}", id);
-                    defenition = format!("{}\n  {}:", defenition, id)
+                    definition = format!("{}\n  {}:", definition, id)
                 };
                 if let Path(path) = ty {
                     // println!("{}", path.path.segments[0].ident);
-                    defenition = format!("{} {}", defenition, path.path.segments[0].ident)
+                    definition = format!("{} {}", definition, path.path.segments[0].ident)
                 }
             }
         }
@@ -32,7 +32,7 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
     let gen = quote! {
         impl HelloMacro for #name {
             fn helpify() {
-                println!(#defenition);
+                println!(#definition);
             }
         }
     };
